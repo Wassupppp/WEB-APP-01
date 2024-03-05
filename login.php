@@ -25,17 +25,20 @@ function manage_post($title,$database) {
 
 function manage_post_with_user($title,$database) {
     $user_access = user_access($database);
+    
     if ($user_access) { // AUTHENTIFICATION Ok
         session_start();
         $_SESSION=[];
         $_SESSION['user.id'] = $user_access['id'];
         $_SESSION['user.firstName'] = $user_access['first_name'];
         $_SESSION['user.lastName'] = $user_access['last_name'];
-        user_raz_failures($database);
+        if($user_access['failures'] > 0) {
+            user_raz_failures($database);
+        }
         http_redirection('home.php'); // => ACCUEIL
     }
-    // AUTHENTIFICATION KO
     $user_state = user_state($database);
+    // AUTHENTIFICATION KO
     if (!$user_state) { // USER N'EXISTE PAS
         html_login_send_page($title,html_form($title,TRUE)); // => CONNEXION ERROR
     }
