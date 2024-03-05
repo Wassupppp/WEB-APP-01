@@ -31,6 +31,7 @@ function manage_post_with_user($title,$database) {
         $_SESSION['user.id'] = $user_access['id'];
         $_SESSION['user.firstName'] = $user_access['first_name'];
         $_SESSION['user.lastName'] = $user_access['last_name'];
+        user_raz_failures($database);
         http_redirection('home.php'); // => ACCUEIL
     }
     // AUTHENTIFICATION KO
